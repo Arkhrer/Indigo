@@ -4,6 +4,7 @@
 #include "../InputManager.h"
 #include "../Sprite.h"
 #include "../Collider.h"
+#define SCALE 3.0 * 8/10
 
 TitleState::TitleState(): State(){
 
@@ -20,10 +21,10 @@ TitleState::TitleState(): State(){
     indigoGo->AddComponent(dynamic_cast<Component*>(indigo));
     AddObject(indigoGo);
     Sprite* indigoSprite = (Sprite*)(indigoGo->GetComponent("Sprite"));
-    Collider* indigoCollider = new Collider(*indigoGo, Vec2(0.5, 1.0));
+    Collider* indigoCollider = new Collider(*indigoGo, Vec2(0.25, 0.17), Vec2(1.0, indigoGo->box.h * 5/4));
     indigoGo->AddComponent(dynamic_cast<Component*>(indigoCollider));
 
-    indigoSprite->SetScaleX(3.0, 3.0);
+    indigoSprite->SetScaleX(SCALE, SCALE);
     indigoGo->box.x = (480 * 3 - indigoGo->box.w) / 2 - 100;
     indigoGo->box.y = 270 * 3 - indigoGo->box.h - 25;
 }

@@ -16,6 +16,8 @@ public:
     void NotifyCollision(GameObject &other);
 
     inline static Indigo* player = nullptr;
+private:
+    int lastSpeed;
 };
 
 #endif // INDIGO_H

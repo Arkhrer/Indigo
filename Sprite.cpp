@@ -38,6 +38,8 @@ void Sprite::Open(std::string file){
 
     associated.box.w = frameWidth;
     associated.box.h = height;
+
+//    SetScaleX(scale.x,scale.y);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h){
