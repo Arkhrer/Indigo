@@ -2,6 +2,7 @@
 #define INDIGO_H
 
 #include "../Component.h"
+#include "../Timer.h"
 
 class Indigo: public Component{
 public:
@@ -18,6 +19,8 @@ public:
     inline static Indigo* player = nullptr;
 private:
     int lastSpeed;
+    bool interacting;
+    Timer interactingTimer;
 };
 
 #endif // INDIGO_H

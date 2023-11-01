@@ -2,10 +2,11 @@
 #include "../Sprite.h"
 #include "../InputManager.h"
 
-Indigo::Indigo(GameObject& associated): Component(associated){
+Indigo::Indigo(GameObject& associated): Component(associated), interactingTimer(){
     player = this;
     associated.AddComponent(dynamic_cast<Component*>(new Sprite(associated, "Assets/Images/IndigoStandingSheet.png", 8, 1.5/8.0)));
     lastSpeed = 0;
+    interacting = false;
 
 }
 
@@ -18,33 +19,53 @@ void Indigo::Start(){
 }
 
 void Indigo::Update(float dt){
-    int directionalSpeed = 250 * dt * (InputManager::GetInstance().IsKeyDown(D_KEY) - InputManager::GetInstance().IsKeyDown(A_KEY));
-    associated.box.x += directionalSpeed;
-    if(directionalSpeed != 0){
-        if(lastSpeed == 0){
+    if(interacting == false){
+
+        int directionalSpeed = 250 * dt * (InputManager::GetInstance().IsKeyDown(D_KEY) - InputManager::GetInstance().IsKeyDown(A_KEY));
+        associated.box.x += directionalSpeed;
+        if(directionalSpeed != 0){
+            if(lastSpeed == 0){
+                Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
+                sprite->SetFrameCount(5);
+                sprite->Open("Assets/Images/IndigoRunningSheet.png");
+            }
+
+            if(directionalSpeed < 0){
+                if(!(associated.flip)){
+                    associated.flip = !associated.flip;
+                }
+            }else if(directionalSpeed > 0){
+                if(associated.flip){
+                    associated.flip = !associated.flip;
+                }
+            }
+        }
+        else{
+            if(lastSpeed != 0){
+                Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
+                sprite->SetFrameCount(8);
+                sprite->Open("Assets/Images/IndigoStandingSheet.png");
+            }
+        }
+        lastSpeed = directionalSpeed;
+
+        if(InputManager::GetInstance().KeyPress(SPACE_BAR)){
             Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
             sprite->SetFrameCount(5);
-            sprite->Open("Assets/Images/IndigoRunningSheet.png");
-        }
-
-        if(directionalSpeed < 0){
-            if(!(associated.flip)){
-                associated.flip = !associated.flip;
-            }
-        }else if(directionalSpeed > 0){
-            if(associated.flip){
-                associated.flip = !associated.flip;
-            }
+            sprite->Open("Assets/Images/IndigoInteractingSheet.png");
+            interacting = true;
+            interactingTimer.Restart();
         }
     }
     else{
-        if(lastSpeed != 0){
+        interactingTimer.Update(dt);
+        if(interactingTimer.Get() >= 5 * (1.5/8.0)){
+            interacting = false;
             Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
             sprite->SetFrameCount(8);
             sprite->Open("Assets/Images/IndigoStandingSheet.png");
         }
     }
-    lastSpeed = directionalSpeed;
 }
 
 void Indigo::Render(){
