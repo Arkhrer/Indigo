@@ -15,6 +15,7 @@
 #define S_KEY               SDLK_s
 #define A_KEY               SDLK_a
 #define D_KEY               SDLK_d
+#define I_KEY               SDLK_i
 
 class InputManager{
 public:

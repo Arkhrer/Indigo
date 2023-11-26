@@ -6,6 +6,9 @@
 #include "SDL_include.h"
 #include "State.h"
 
+#define SCREEN_WIDTH   480 * 3
+#define SCREEN_HEIGHT  270 * 3
+
 class Game{
     public:
         ~Game();

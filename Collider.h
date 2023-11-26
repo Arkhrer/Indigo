@@ -5,7 +5,7 @@
 
 class Collider: public Component{
 public:
-    Collider(GameObject& associated, Vec2 scale = Vec2(1.0, 1.0), Vec2 offset = Vec2(1.0, 1.0));
+    Collider(GameObject& associated, Vec2 scale = Vec2(1.0, 1.0), Vec2 offset = Vec2(0.0, 0.0));
     ~Collider();
     void Update(float dt);
     void Render();

@@ -7,9 +7,6 @@
 #include "Resources.h"
 #include "InputManager.h"
 
-#define SCREEN_WIDTH   480 * 3
-#define SCREEN_HEIGHT  270 * 3
-
 #include <iostream>
 
 Game* Game::instance = nullptr;
@@ -103,7 +100,12 @@ SDL_Renderer* Game::GetRenderer(){
 }
 
 State& Game::GetCurrentState(){
-    return *(stateStack.top());
+    if(!(stateStack.empty())){
+        return *(stateStack.top());
+    }
+    else{
+        exit(404);
+    }
 }
 
 void Game::Push(State *state){
@@ -135,11 +137,12 @@ void Game::Run(){
             stateStack.top()->Start();
             storedState = nullptr;
         }
-
         CalculateDeltaTime();
         InputManager::GetInstance().Update();
-        stateStack.top()->Update(dt);
-        stateStack.top()->Render();
+        if(!stateStack.empty()){
+            stateStack.top()->Update(dt);
+            stateStack.top()->Render();
+        }
         SDL_RenderPresent(renderer);
         SDL_Delay(33);
     }

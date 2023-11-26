@@ -72,7 +72,7 @@ void Text::SetFontFile(std::string fontFile){
     RemakeTexture();
 }
 
-void Text::SetFontSize(int font255Size){
+void Text::SetFontSize(int fontSize){
     this->fontSize = fontSize;
     RemakeTexture();
 }

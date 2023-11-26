@@ -16,11 +16,18 @@ public:
     bool Is(std::string type);
     void NotifyCollision(GameObject &other);
 
+    void Interact();
+
+    bool IsInteracting();
+
+    void CancelMovement();
+
     inline static Indigo* player = nullptr;
 private:
-    int lastSpeed;
+    Vec2 lastSpeed;
     bool interacting;
     Timer interactingTimer;
+    Vec2* destination;
 };
 
 #endif // INDIGO_H

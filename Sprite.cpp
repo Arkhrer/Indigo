@@ -31,15 +31,30 @@ Sprite::~Sprite(){
 void Sprite::Open(std::string file){
     texture = Resources::GetImage(file);
 
+    // Vec2 oldScale(scale.x, scale.y);
+
+    // SetScaleX(1.0, 1.0);
+
     SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 
     int frameWidth = width / frameCount;
     SetClip(0, 0, frameWidth, height);
 
-    associated.box.w = frameWidth;
-    associated.box.h = height;
+    if(scale.x != 0.0){
+        associated.box.w = frameWidth * scale.x;
+    }
+    else{
+        associated.box.w = frameWidth;
+    }
 
-//    SetScaleX(scale.x,scale.y);
+    if(scale.y != 0.0){
+        associated.box.h = height * scale.y;
+    }
+    else{
+        associated.box.h = height;
+    }
+
+   // SetScaleX(oldScale.x, oldScale.y);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h){
