@@ -12,13 +12,16 @@ include_directories(/usr/include/SDL2)
 
 add_executable(Indigo Main.cpp
     CameraFollower.h CameraFollower.cpp Camera.h Camera.cpp Vec2.h Vec2.cpp   Timer.h Timer.cpp TileSet.h TileSet.cpp TileMap.h TileMap.cpp Text.h Text.cpp State.h State.cpp   Sprite.h Sprite.cpp Sound.h Sound.cpp SDL_include.h Resources.h Resources.cpp Rect.h Rect.cpp Music.h Music.cpp InputManager.h InputManager.cpp GameObject.h GameObject.cpp GameData.h GameData.cpp Game.h Game.cpp Component.h Component.cpp Collision.h Collision.cpp Collider.h Collider.cpp
-    States/TitleState.h States/TitleState.cpp
+    States/FirstRoom.h States/FirstRoom.cpp
     Components/Indigo.h Components/Indigo.cpp
     Components/Inventory.cpp
     Components/Inventory.h
     Components/Item.h Components/Item.cpp
     Components/MovementBox.h Components/MovementBox.cpp
-    Components/MovementBound.h Components/MovementBound.cpp)
+    Components/MovementBound.h Components/MovementBound.cpp
+    Components/RoomTransition.h Components/RoomTransition.cpp
+    States/SecondRoom.h States/SecondRoom.cpp
+    States/TitleState.h States/TitleState.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS Indigo

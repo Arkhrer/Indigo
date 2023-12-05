@@ -62,3 +62,7 @@ bool State::PopRequested(){
 bool State::QuitRequested(){
     return quitRequested;
 }
+
+void State::RequestPop(){
+    this->popRequested = true;
+}

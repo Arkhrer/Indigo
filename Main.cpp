@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Game.h"
-#include "States/TitleState.h"
+#include "States/FirstRoom.h"
 
 int main (int argc, char** argv) {
 
@@ -10,7 +10,7 @@ int main (int argc, char** argv) {
 
     Game& game = Game::GetInstance();
 
-    game.Push(new TitleState());
+    game.Push(new FirstRoom());
 
     game.Run();
 

@@ -6,7 +6,7 @@
 #include "Inventory.h"
 #include "MovementBox.h"
 
-Indigo::Indigo(GameObject& associated): Component(associated), interactingTimer(), lastSpeed(0.0,0.0){
+Indigo::Indigo(GameObject& associated): Component(associated), interactingTimer(), lastSpeed(0.0,0.0), lastPosition(0.0, 0.0){
     player = this;
     associated.AddComponent(dynamic_cast<Component*>(new Sprite(associated, "Assets/Images/IndigoStandingSheet.png", 8, 1.5/8.0)));
     MovementBox* indigoCollider = new MovementBox(associated, Vec2(0.25, 0.17), Vec2(0.0, (associated.box.h) * (1 - 0.17)  / 2));
@@ -37,6 +37,8 @@ void Indigo::Update(float dt){
         }
 
         Vec2 speed(0.0, 0.0);
+        lastPosition.x = associated.box.x;
+        lastPosition.y = associated.box.y;
 
         if (destination != nullptr){
             Vec2 movingPoint(associated.box.Center().x, associated.box.Center().y + ((associated.box.h) * (1 - 0.1) / 2));
@@ -125,8 +127,11 @@ bool Indigo::IsInteracting(){
 }
 
 void Indigo::CancelMovement(){
-    associated.box.x -= 2 * lastSpeed.x;
-    associated.box.y -= 2 * lastSpeed.y;
+    // associated.box.x -= 2* lastSpeed.x;
+    // associated.box.y -= 2* lastSpeed.y;
+    associated.box.x -=  2 * (associated.box.x - lastPosition.x);
+    associated.box.y -=  2 * (associated.box.y - lastPosition.y);
+    // associated.box.y = lastPosition.y;
     delete destination;
     destination = nullptr;
 }

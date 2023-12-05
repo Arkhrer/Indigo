@@ -21,6 +21,7 @@ public:
 
     bool PopRequested();
     bool QuitRequested();
+    void RequestPop();
 
 protected:
     void StartArray();

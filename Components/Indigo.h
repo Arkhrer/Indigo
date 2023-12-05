@@ -25,6 +25,7 @@ public:
     inline static Indigo* player = nullptr;
 private:
     Vec2 lastSpeed;
+    Vec2 lastPosition;
     bool interacting;
     Timer interactingTimer;
     Vec2* destination;
