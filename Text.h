@@ -11,7 +11,7 @@ class Text: public Component{
 public:
     enum TextStyle { SOLID, SHADED, BLENDED };
 
-    Text(GameObject& associated, std::string fontFile, int fontSize, TextStyle style, std::string text, SDL_Color color);
+    Text(GameObject& associated, std::string fontFile, int fontSize, TextStyle style, std::string text, SDL_Color color, Vec2 offset = Vec2(0.0, 0.0));
     ~Text();
 
     void Update(float dt);
@@ -23,6 +23,11 @@ public:
     void SetStyle(TextStyle style);
     void SetFontFile(std::string fontFile);
     void SetFontSize(int fontSize);
+    void SetOffset(float x, float y);
+
+    Vec2 GetSize();
+
+    std::string GetText();
 
     void RemakeTexture();
 
@@ -35,6 +40,11 @@ private:
     std::string fontFile;
     int fontSize;
     SDL_Color color;
+
+    Vec2 offset;
+
+    float w;
+    float h;
 };
 
 #endif // TEXT_H

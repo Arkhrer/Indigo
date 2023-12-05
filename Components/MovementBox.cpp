@@ -4,6 +4,7 @@
 #include "RoomTransition.h"
 #include <iostream>
 #include "../Game.h"
+#include "../States/FirstRoom.h"
 #include "../States/SecondRoom.h"
 
 MovementBox::MovementBox(GameObject& associated, Vec2 scale, Vec2 offset): Collider(associated, scale, offset){
@@ -34,6 +35,7 @@ void MovementBox::NotifyCollision(GameObject &other){
     }
     RoomTransition* roomTransition = (RoomTransition*)(other.GetComponent("RoomTransition"));
     if(roomTransition != nullptr){
+        Vec2 newIndigoPosition = roomTransition->GetTargetIndigoPosition();
         std::cout << "transição de sala" << std::endl;
         switch(roomTransition->GetTargetRoom()){
         case 0:
@@ -41,12 +43,13 @@ void MovementBox::NotifyCollision(GameObject &other){
             break;
         case 1:
             // SALA 1
+            Game::GetInstance().Push(new FirstRoom(newIndigoPosition.x, newIndigoPosition.y));
+            Game::GetInstance().GetCurrentState().RequestPop();
             break;
         case 2:
             // SALA 2
+            Game::GetInstance().Push(new SecondRoom(newIndigoPosition.x, newIndigoPosition.y));
             Game::GetInstance().GetCurrentState().RequestPop();
-
-            Game::GetInstance().Push(new SecondRoom());
             break;
         case 3:
             // SALA 3

@@ -18,6 +18,7 @@ public:
 
     virtual std::weak_ptr<GameObject> AddObject(GameObject* object);
     virtual std::weak_ptr<GameObject> GetObjectPtr(GameObject* object);
+    virtual std::weak_ptr<GameObject> GetObjectContaining(std::string type);
 
     bool PopRequested();
     bool QuitRequested();

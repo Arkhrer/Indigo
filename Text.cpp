@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "Camera.h"
 
-Text::Text(GameObject& associated, std::string fontFile, int fontSize, TextStyle style, std::string text, SDL_Color color): Component(associated){
+Text::Text(GameObject& associated, std::string fontFile, int fontSize, TextStyle style, std::string text, SDL_Color color, Vec2 offset): Component(associated), offset(offset){
     this->texture = nullptr;
 
     this->text = text;
@@ -11,6 +11,8 @@ Text::Text(GameObject& associated, std::string fontFile, int fontSize, TextStyle
     this->fontFile = fontFile;
     this->fontSize = fontSize;
     this->color = color;
+    this->w = 0;
+    this->h = 0;
 
     this->font = Resources::GetFont(this->fontFile, this->fontSize);
 
@@ -35,8 +37,8 @@ void Text::Render(){
     clipRect.h = associated.box.h;
 
     SDL_Rect dstRect;
-    dstRect.x = associated.box.x - Camera::pos.x;
-    dstRect.y = associated.box.y - Camera::pos.y;
+    dstRect.x = associated.box.x - Camera::pos.x + offset.x;
+    dstRect.y = associated.box.y - Camera::pos.y + offset.y;
     dstRect.w = clipRect.w;
     dstRect.h = clipRect.h;
 
@@ -77,6 +79,19 @@ void Text::SetFontSize(int fontSize){
     RemakeTexture();
 }
 
+void Text::SetOffset(float x, float y){
+    this->offset.x = x;
+    this->offset.y = y;
+}
+
+Vec2 Text::GetSize(){
+    return Vec2(this->w, this->h);
+}
+
+std::string Text::GetText(){
+    return text;
+}
+
 void Text::RemakeTexture(){
     if(texture){
         SDL_DestroyTexture(texture);
@@ -100,6 +115,8 @@ void Text::RemakeTexture(){
             break;
         }
         texture = SDL_CreateTextureFromSurface(Game::GetInstance().GetRenderer(), tempSurface);
+        this->w = tempSurface->w;
+        this->h = tempSurface->h;
         associated.box.w = tempSurface->w;
         associated.box.h = tempSurface->h;
         SDL_FreeSurface(tempSurface);

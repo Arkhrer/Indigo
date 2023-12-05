@@ -1,7 +1,8 @@
 #include "RoomTransition.h"
 
-RoomTransition::RoomTransition(GameObject& associated, int targetRoom, Vec2 scale, Vec2 offset): Collider(associated, scale, offset){
+RoomTransition::RoomTransition(GameObject& associated, int targetRoom, Vec2 targetIndigoPosition, Vec2 scale, Vec2 offset): Collider(associated, scale, offset){
     this->targetRoom = targetRoom;
+    this->targetIndigoPosition = targetIndigoPosition;
 }
 
 RoomTransition::~RoomTransition(){
@@ -27,4 +28,9 @@ void RoomTransition::NotifyCollision(GameObject &other){
 
 int RoomTransition::GetTargetRoom(){
     return targetRoom;
+}
+
+
+Vec2 RoomTransition::GetTargetIndigoPosition(){
+    return targetIndigoPosition;
 }

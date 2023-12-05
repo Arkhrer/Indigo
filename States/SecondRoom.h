@@ -5,7 +5,7 @@
 
 class SecondRoom: public State{
 public:
-    SecondRoom();
+    SecondRoom(int x, int y);
     ~SecondRoom();
 
     void LoadAssets();

@@ -5,6 +5,8 @@
 // #include "../Collider.h"
 #include "Inventory.h"
 #include "MovementBox.h"
+#include "../Camera.h"
+#include "../States/PauseMenu.h"
 
 Indigo::Indigo(GameObject& associated): Component(associated), interactingTimer(), lastSpeed(0.0,0.0), lastPosition(0.0, 0.0){
     player = this;
@@ -28,12 +30,16 @@ void Indigo::Start(){
 }
 
 void Indigo::Update(float dt){
+    if(InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
+        Game::GetInstance().Push(new PauseMenu());
+    }
+
     if(interacting == false){
         if(InputManager::GetInstance().IsMouseDown(RIGHT_MOUSE_BUTTON)){
             if(destination != nullptr){
                 delete destination;
             }
-            destination = new Vec2(InputManager::GetInstance().GetMouseX(), InputManager::GetInstance().GetMouseY());
+            destination = new Vec2(InputManager::GetInstance().GetMouseX() + Camera::pos.x, InputManager::GetInstance().GetMouseY() + Camera::pos.y);
         }
 
         Vec2 speed(0.0, 0.0);

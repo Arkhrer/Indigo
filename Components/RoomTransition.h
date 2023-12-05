@@ -6,7 +6,7 @@
 class RoomTransition: public Collider
 {
 public:
-    RoomTransition(GameObject& associated, int targetRoom, Vec2 scale = Vec2(1.0, 1.0), Vec2 offset = Vec2(0.0, 0.0));
+    RoomTransition(GameObject& associated, int targetRoom, Vec2 targetIndigoPosition = Vec2(0.0, 0.0), Vec2 scale = Vec2(1.0, 1.0), Vec2 offset = Vec2(0.0, 0.0));
     ~RoomTransition();
 
     void Start();
@@ -15,8 +15,10 @@ public:
     void NotifyCollision(GameObject& other);
 
     int GetTargetRoom();
+    Vec2 GetTargetIndigoPosition();
 private:
     int targetRoom;
+    Vec2 targetIndigoPosition;
 };
 
 #endif // ROOMTRANSITION_H

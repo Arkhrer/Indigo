@@ -55,6 +55,17 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go){
     return std::weak_ptr<GameObject>();
 }
 
+std::weak_ptr<GameObject> State::GetObjectContaining(std::string type){
+
+    for (unsigned int i = 0; i < objectArray.size(); ++i){
+        if (objectArray.at(i)->GetComponent(type) != nullptr){
+            std::weak_ptr<GameObject> weakGo = objectArray.at(i);
+            return weakGo;
+        }
+    }
+    return std::weak_ptr<GameObject>();
+}
+
 bool State::PopRequested(){
     return popRequested;
 }

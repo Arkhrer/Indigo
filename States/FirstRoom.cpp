@@ -11,18 +11,21 @@
 #include "../Components/MovementBound.h"
 #include "../Collision.h"
 #include "../Components/RoomTransition.h"
+#include "../Background.h"
 #define SCALE 3.0 * 8/10
 #define PI 3.14159265358979323846
 
-FirstRoom::FirstRoom(): State(){
+FirstRoom::FirstRoom(int x, int y): State(){
 
     GameObject* backgroundGo = new GameObject();
     AddObject(backgroundGo);
-    Sprite* img = new Sprite(*backgroundGo, "Assets/Images/IndigoLabBackground.jpg");
+    Sprite* img = new Sprite(*backgroundGo, "Assets/Images/Room1Bg.png");
     backgroundGo->AddComponent(dynamic_cast<Component*>(img));
     img->SetScaleX(3.0, 3.0);
     backgroundGo->box.x = 0;
     backgroundGo->box.y = 0;
+    Background* background = new Background(*backgroundGo);
+    backgroundGo->AddComponent(dynamic_cast<Component*>(background));
 
     GameObject* itemTesteGo = new GameObject();
     Item* itemTeste = new Item(*itemTesteGo, 1, true);
@@ -73,15 +76,15 @@ FirstRoom::FirstRoom(): State(){
     indigoSprite->SetScaleX(SCALE, SCALE);
     MovementBox* indigoCollider = (MovementBox*)(indigoGo->GetComponent("MovementBox"));
     indigoCollider->SetOffset(Vec2(0.0, (indigoGo->box.h) * (1 - 0.17)  / 2));
-    indigoGo->box.x = (480 * 3 - indigoGo->box.w) / 2 - 100;
-    indigoGo->box.y = 270 * 3 - indigoGo->box.h - 25;
+    indigoGo->box.x = x;
+    indigoGo->box.y = y;
 
     GameObject* roomTransitionGo = new GameObject();
     roomTransitionGo->box.w = 200;
     roomTransitionGo->box.h = 20;
     roomTransitionGo->box.x = 1000;
     roomTransitionGo->box.y = 800;
-    RoomTransition* roomTransition = new RoomTransition(*roomTransitionGo, 2);
+    RoomTransition* roomTransition = new RoomTransition(*roomTransitionGo, 2, Vec2(350, 500));
     roomTransitionGo->AddComponent(dynamic_cast<Component*>(roomTransition));
     AddObject(roomTransitionGo);
 }
@@ -98,10 +101,6 @@ void FirstRoom::Update(float dt){
 
     if(InputManager::GetInstance().QuitRequested()){
         quitRequested = true;
-    }
-
-    if(InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
-        popRequested = true;
     }
 
     UpdateArray(dt);

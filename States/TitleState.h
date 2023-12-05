@@ -15,6 +15,8 @@ public:
     void Start();
     void Pause();
     void Resume();
+private:
+    int option;
 };
 
 #endif // TITLESTATE_H

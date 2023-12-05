@@ -21,7 +21,9 @@ add_executable(Indigo Main.cpp
     Components/MovementBound.h Components/MovementBound.cpp
     Components/RoomTransition.h Components/RoomTransition.cpp
     States/SecondRoom.h States/SecondRoom.cpp
-    States/TitleState.h States/TitleState.cpp)
+    States/TitleState.h States/TitleState.cpp
+    Background.h Background.cpp
+    States/PauseMenu.h States/PauseMenu.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS Indigo

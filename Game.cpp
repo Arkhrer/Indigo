@@ -89,7 +89,7 @@ Game::~Game(){
 
 Game& Game::GetInstance(){
     if (instance == nullptr){
-        std::string window_name = "Jonas Soares Rangel - 170146804";
+        std::string window_name = "Indigo";
         instance = new Game(window_name, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     return *instance;

@@ -4,6 +4,7 @@
 #include "../Game.h"
 #include "Inventory.h"
 #include "Indigo.h"
+#include "../Camera.h"
 
 Item::Item(GameObject &associated, int ID, bool inMap): Component(associated){
     this->ID = ID;
@@ -14,7 +15,7 @@ Item::Item(GameObject &associated, int ID, bool inMap): Component(associated){
     directory.append(".png");
     Sprite* itemSprite = new Sprite(associated, directory);
     associated.AddComponent(dynamic_cast<Component*>(itemSprite));
-    itemSprite->SetScaleX(3.0,3.0);
+    itemSprite->SetScaleX(2.5,2.5);
 }
 
 Item::~Item(){
@@ -27,7 +28,7 @@ void Item::Start(){
 
 void Item::Update(float dt){
     if(!inMap){
-        if(attached && InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) && associated.box.ContainsPoint(InputManager::GetInstance().GetMouseX(), InputManager::GetInstance().GetMouseY())){
+        if(attached && InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) && associated.box.ContainsPoint(InputManager::GetInstance().GetMouseX() + Camera::pos.x, InputManager::GetInstance().GetMouseY() + Camera::pos.y)){
             attached = false;
         }
 
@@ -36,7 +37,7 @@ void Item::Update(float dt){
         }
     }
     else{
-        if(Inventory::inventory != nullptr && InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) && associated.box.ContainsPoint(InputManager::GetInstance().GetMouseX(), InputManager::GetInstance().GetMouseY())){
+        if(Inventory::inventory != nullptr && InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON) && associated.box.ContainsPoint(InputManager::GetInstance().GetMouseX() + Camera::pos.x, InputManager::GetInstance().GetMouseY() + Camera::pos.y)){
             if(Indigo::player != nullptr){
                 if(!(Indigo::player->IsInteracting())){
                     Inventory::inventory->AddItem(this->ID);
@@ -55,8 +56,8 @@ void Item::Update(float dt){
 
 void Item::Render(){
     if(!attached && !inMap){
-        associated.box.x = InputManager::GetInstance().GetMouseX() - associated.box.w / 2;
-        associated.box.y = InputManager::GetInstance().GetMouseY() - associated.box.h / 2;
+        associated.box.x = InputManager::GetInstance().GetMouseX() - associated.box.w / 2 + Camera::pos.x;
+        associated.box.y = InputManager::GetInstance().GetMouseY() - associated.box.h / 2 + Camera::pos.y;
     }
 }
 
