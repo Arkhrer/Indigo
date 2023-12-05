@@ -79,7 +79,10 @@ void TitleState::Update(float dt){
     }
 
     if(InputManager::GetInstance().KeyPress(UP_ARROW_KEY)){
-        option = abs((option - 1) % 2);
+        option = option - 1;
+        if (option == -1){
+            option = 1;
+        }
     }
 
     if(InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY)){
@@ -89,6 +92,7 @@ void TitleState::Update(float dt){
     if(InputManager::GetInstance().KeyPress(SPACE_BAR)){
         switch(option){
         case 0:
+            popRequested = true;
             Game::GetInstance().Push(new FirstRoom(350, 500));
             break;
         case 1:
