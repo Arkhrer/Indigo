@@ -2,6 +2,11 @@
 #include "../Camera.h"
 #include "../Game.h"
 #include "../InputManager.h"
+#include "../Text.h"
+
+#define ACTIVE_COLOR SDL_Color {255, 255, 0, 255}
+#define INACTIVE_COLOR SDL_Color {255, 255, 255, 255}
+#define SHADOW_COLOR SDL_Color {0, 0, 0, 255}
 
 PauseMenu::PauseMenu(){
     option = 0;
@@ -16,6 +21,18 @@ PauseMenu::PauseMenu(){
     backgroundGo->box.x = (SCREEN_WIDTH - backgroundGo->box.w) / 2 + Camera::pos.x;
     backgroundGo->box.y = (SCREEN_HEIGHT - backgroundGo->box.h) / 2 + Camera::pos.y;
 
+    GameObject* textGo = new GameObject();
+    Text* text3 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Sair", INACTIVE_COLOR);
+    text3->SetOffset(645.0, 481.0);
+    Text* text1 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Resumir", INACTIVE_COLOR);
+    text1->SetOffset(645.0, 275.0);
+    Text* text2 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Registros", INACTIVE_COLOR);
+    text2->SetOffset(645.0, 378.0);
+    textGo->AddComponent(dynamic_cast<Component*>(text3));
+    textGo->AddComponent(dynamic_cast<Component*>(text1));
+    textGo->AddComponent(dynamic_cast<Component*>(text2));
+
+    AddObject(textGo);
 
 }
 
@@ -69,7 +86,42 @@ void PauseMenu::Update(float dt){
         }
     }
 
+
+    if(map){
+        if(lastFrameMap != map){
+            Text* text = nullptr;
+            for(int i = 0; i < objectArray.size(); ++i){
+                text = (Text*)(objectArray[i]->GetComponent("Text"));
+                if(text != nullptr){
+                    objectArray[i]->RequestDelete();
+                }
+            }
+        }
+    }
+    else{
+        if(lastFrameMap != map){
+            GameObject* textGo = new GameObject();
+            Text* text3 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Sair", INACTIVE_COLOR);
+            text3->SetOffset(645.0, 481.0);
+            Text* text1 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Resumir", INACTIVE_COLOR);
+            text1->SetOffset(645.0, 275.0);
+            Text* text2 = new Text(*textGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Registros", INACTIVE_COLOR);
+            text2->SetOffset(645.0, 378.0);
+            textGo->AddComponent(dynamic_cast<Component*>(text3));
+            textGo->AddComponent(dynamic_cast<Component*>(text1));
+            textGo->AddComponent(dynamic_cast<Component*>(text2));
+
+            AddObject(textGo);
+        }
+    }
+
     UpdateArray(dt);
+
+    for(int i = objectArray.size() - 1; i >= 0; --i) {
+        if(objectArray[i]->IsDead()){
+            objectArray.erase(objectArray.begin() + i);
+        }
+    }
 }
 
 void PauseMenu::Render(){

@@ -31,6 +31,14 @@ TitleState::TitleState(){
     Background* background = new Background(*backgroundGo);
     backgroundGo->AddComponent(dynamic_cast<Component*>(background));
 
+    GameObject* logoGo = new GameObject();
+    AddObject(logoGo);
+    Sprite* logo = new Sprite(*logoGo, "Assets/Images/Logo.png");
+    logoGo->AddComponent(dynamic_cast<Component*>(logo));
+    logo->SetScaleX(0.75, 0.75);
+    logoGo->box.x = (SCREEN_WIDTH - logoGo->box.w) / 2;
+    logoGo->box.y = -(SCREEN_HEIGHT) / 2;
+
     //Text initialization
 
     option = 0;
