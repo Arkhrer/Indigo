@@ -6,6 +6,8 @@
 #include "../Game.h"
 #include "../States/FirstRoom.h"
 #include "../States/SecondRoom.h"
+#include "../States/ThirdRoom.h"
+#include "../States/Corridor.h"
 
 MovementBox::MovementBox(GameObject& associated, Vec2 scale, Vec2 offset): Collider(associated, scale, offset){
 
@@ -44,16 +46,20 @@ void MovementBox::NotifyCollision(GameObject &other){
         case 1:
             // SALA 1
             Game::GetInstance().Push(new FirstRoom(newIndigoPosition.x, newIndigoPosition.y));
-            Game::GetInstance().GetCurrentState().RequestPop();
             break;
         case 2:
             // SALA 2
             Game::GetInstance().Push(new SecondRoom(newIndigoPosition.x, newIndigoPosition.y));
-            Game::GetInstance().GetCurrentState().RequestPop();
             break;
         case 3:
             // SALA 3
+            Game::GetInstance().Push(new ThirdRoom(newIndigoPosition.x, newIndigoPosition.y));
+            break;
+        case 4:
+            // CORREDOR
+            Game::GetInstance().Push(new Corridor(newIndigoPosition.x, newIndigoPosition.y));
             break;
         }
+        Game::GetInstance().GetCurrentState().RequestPop();
     }
 }

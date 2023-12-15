@@ -4,7 +4,12 @@
 #include "../Sprite.h"
 #include "../InputManager.h"
 #include "FirstRoom.h"
+#include "SecondRoom.h"
+#include "ThirdRoom.h"
+#include "Corridor.h"
 #include "../Background.h"
+#include "../GameData.h"
+#include "StartingCutscene.h"
 
 #include <cstdlib>
 
@@ -18,7 +23,7 @@ TitleState::TitleState(){
 
     GameObject* backgroundGo = new GameObject();
     AddObject(backgroundGo);
-    Sprite* img = new Sprite(*backgroundGo, "Assets/Images/MenuBg.png");
+    Sprite* img = new Sprite(*backgroundGo, "Assets/Images/MainMenu/MenuBg.png");
     backgroundGo->AddComponent(dynamic_cast<Component*>(img));
     img->SetScaleX(3.0, 3.0);
     backgroundGo->box.x = 0;
@@ -31,12 +36,12 @@ TitleState::TitleState(){
     option = 0;
 
     GameObject* startGo = new GameObject();
-    Sprite* startButton = new Sprite(*startGo, "Assets/Images/Button.png");
+    Sprite* startButton = new Sprite(*startGo, "Assets/Images/HUD/Button.png");
     startGo->AddComponent(dynamic_cast<Component*>(startButton));
     startButton->SetScaleX(3.0, 3.0);
     Text* startShadowText = new Text(*startGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Novo jogo", SHADOW_COLOR);
     Text* startText = new Text(*startGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Novo jogo", INACTIVE_COLOR);
-    startButton->Open("Assets/Images/Button.png");
+    startButton->Open("Assets/Images/HUD/Button.png");
     startGo->AddComponent(startShadowText);
     startGo->AddComponent(startText);
     AddObject(startGo);
@@ -48,12 +53,12 @@ TitleState::TitleState(){
     startShadowText->SetOffset((startGo->box.w - startTextSize.x) / 2 + 1, (startGo->box.h - startTextSize.y) / 2 + 1);
 
     GameObject* exitGo = new GameObject();
-    Sprite* exitButton = new Sprite(*exitGo, "Assets/Images/Button.png");
+    Sprite* exitButton = new Sprite(*exitGo, "Assets/Images/HUD/Button.png");
     exitGo->AddComponent(dynamic_cast<Component*>(exitButton));
     exitButton->SetScaleX(3.0, 3.0);
     Text* exitShadowText = new Text(*exitGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Sair", SHADOW_COLOR);
     Text* exitText = new Text(*exitGo, "Assets/font/pixela-extreme.ttf", 28, Text::SOLID, "Sair", INACTIVE_COLOR);
-    exitButton->Open("Assets/Images/Button.png");
+    exitButton->Open("Assets/Images/HUD/Button.png");
     exitGo->AddComponent(exitShadowText);
     exitGo->AddComponent(exitText);
     AddObject(exitGo);
@@ -92,8 +97,13 @@ void TitleState::Update(float dt){
     if(InputManager::GetInstance().KeyPress(SPACE_BAR)){
         switch(option){
         case 0:
+            GameData::Initialize();
             popRequested = true;
-            Game::GetInstance().Push(new FirstRoom(350, 500));
+            // Game::GetInstance().Push(new FirstRoom(350, 500));
+            // Game::GetInstance().Push(new SecondRoom(350, 500));
+            // Game::GetInstance().Push(new Corridor(350, 500));
+            // Game::GetInstance().Push(new ThirdRoom(350, 500));
+            Game::GetInstance().Push(new StartingCutscene());
             break;
         case 1:
             quitRequested = true;

@@ -15,6 +15,9 @@ public:
     void Start();
     void Pause();
     void Resume();
+private:
+    int initialX;
+    int initialY;
 };
 
 #endif // FIRSTROOM_H

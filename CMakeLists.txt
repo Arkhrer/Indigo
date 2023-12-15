@@ -23,7 +23,20 @@ add_executable(Indigo Main.cpp
     States/SecondRoom.h States/SecondRoom.cpp
     States/TitleState.h States/TitleState.cpp
     Background.h Background.cpp
-    States/PauseMenu.h States/PauseMenu.cpp)
+    States/PauseMenu.h States/PauseMenu.cpp
+    States/ThirdRoom.h States/ThirdRoom.cpp
+    States/Corridor.h States/Corridor.cpp
+    States/StartingCutscene.h States/StartingCutscene.cpp
+    States/EndingCutscene.h States/EndingCutscene.cpp
+    States/SecondDialogue.h States/SecondDialogue.cpp
+    Components/Purpura.h Components/Purpura.cpp
+    States/RoomOneDesk.h States/RoomOneDesk.cpp
+    Components/BackArrow.h Components/BackArrow.cpp
+    Components/SubSceneTrigger.h Components/SubSceneTrigger.cpp
+    Components/InteractionZone.h Components/InteractionZone.cpp
+    States/RoomTwoSide.h States/RoomTwoSide.cpp
+    States/RoomThreeFuseBox.h States/RoomThreeFuseBox.cpp
+    States/RoomThreeSink.h States/RoomThreeSink.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS Indigo

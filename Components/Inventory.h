@@ -18,9 +18,11 @@ public:
     void RemoveItem(int ID);
 
     inline static Inventory* inventory = nullptr;
+
+    GameObject& openAssociated;
+    std::vector<std::shared_ptr<GameObject>> items;
 private:
     bool visible;
-    std::vector<std::shared_ptr<GameObject>> items;
 
 };
 

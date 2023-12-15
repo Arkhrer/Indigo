@@ -7,10 +7,10 @@
 #include "Item.h"
 
 
-Inventory::Inventory(GameObject &associated): Component(associated){
+Inventory::Inventory(GameObject &associated): Component(associated), openAssociated(associated){
     inventory = this;
     visible = false;
-    Sprite* inventoryHUD = new Sprite(associated, "Assets/Images/InventoryHUD.png");
+    Sprite* inventoryHUD = new Sprite(associated, "Assets/Images/HUD/InventoryHUD.png");
     associated.AddComponent(dynamic_cast<Component*>(inventoryHUD));
     inventoryHUD->SetScaleX(3.0, 3.0);
 
@@ -40,6 +40,7 @@ void Inventory::Start(){
 }
 
 void Inventory::Update(float dt){
+    inventory = this;
 
     if(InputManager::GetInstance().KeyPress(I_KEY)){
         if (visible){
@@ -76,8 +77,8 @@ void Inventory::Update(float dt){
 
     for(unsigned int i = 0; i < items.size(); ++i){
         if(((Item*)(items.at(i)->GetComponent("Item")))->Attached()){
-            items.at(i)->box.x = associated.box.x + (i * 35 + 5) * 3.0;
-            items.at(i)->box.y = associated.box.y + 5;
+            items.at(i)->box.x = associated.box.x + (i * 47 + 2) * 3.0 + 5;
+            items.at(i)->box.y = associated.box.y + 10;
         }
         items.at(i)->Update(dt);
     }
@@ -101,7 +102,6 @@ bool Inventory::Is(std::string type){
 }
 
 void Inventory::NotifyCollision(GameObject &other){
-
 }
 
 void Inventory::AddItem(int ID){

@@ -29,6 +29,7 @@ private:
     bool interacting;
     Timer interactingTimer;
     Vec2* destination;
+    bool lastInteracting;
 };
 
 #endif // INDIGO_H

@@ -7,14 +7,16 @@
 #include "MovementBox.h"
 #include "../Camera.h"
 #include "../States/PauseMenu.h"
+#include <iostream>
 
 Indigo::Indigo(GameObject& associated): Component(associated), interactingTimer(), lastSpeed(0.0,0.0), lastPosition(0.0, 0.0){
     player = this;
-    associated.AddComponent(dynamic_cast<Component*>(new Sprite(associated, "Assets/Images/IndigoStandingSheet.png", 8, 1.5/8.0)));
+    associated.AddComponent(dynamic_cast<Component*>(new Sprite(associated, "Assets/Images/Indigo/IndigoStandingSheet.png", 8, 1.5/8.0)));
     MovementBox* indigoCollider = new MovementBox(associated, Vec2(0.25, 0.17), Vec2(0.0, (associated.box.h) * (1 - 0.17)  / 2));
     associated.AddComponent(dynamic_cast<Component*>(indigoCollider));
     interacting = false;
     destination = nullptr;
+    lastInteracting = false;
 
 }
 
@@ -59,6 +61,7 @@ void Indigo::Update(float dt){
                 destination = nullptr;
                 speed.x = 0;
                 speed.y = 0;
+                std::cout << "x: " << associated.box.x << "; y: " << associated.box.y << std::endl;
             }
             else{
                 associated.box.AddVector(speed);
@@ -66,10 +69,10 @@ void Indigo::Update(float dt){
         }
 
         if(speed.Magnitude() != 0){
-            if(lastSpeed.Magnitude() == 0){
+            if(lastSpeed.Magnitude() == 0 || lastInteracting){
                 Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
                 sprite->SetFrameCount(5);
-                sprite->Open("Assets/Images/IndigoRunningSheet.png");
+                sprite->Open("Assets/Images/Indigo/IndigoRunningSheet.png");
             }
 
             if(speed.x < 0){
@@ -86,11 +89,12 @@ void Indigo::Update(float dt){
             if(lastSpeed.Magnitude() != 0){
                 Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
                 sprite->SetFrameCount(8);
-                sprite->Open("Assets/Images/IndigoStandingSheet.png");
+                sprite->Open("Assets/Images/Indigo/IndigoStandingSheet.png");
             }
         }
         lastSpeed.x = speed.x;
         lastSpeed.y = speed.y;
+        lastInteracting = false;
     }
     else{
         interactingTimer.Update(dt);
@@ -98,7 +102,10 @@ void Indigo::Update(float dt){
             interacting = false;
             Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
             sprite->SetFrameCount(8);
-            sprite->Open("Assets/Images/IndigoStandingSheet.png");
+            sprite->Open("Assets/Images/Indigo/IndigoStandingSheet.png");
+            delete destination;
+            destination = nullptr;
+            lastInteracting = true;
         }
     }
 }
@@ -123,7 +130,7 @@ void Indigo::NotifyCollision(GameObject &other){
 void Indigo::Interact(){
     Sprite* sprite = (Sprite*)associated.GetComponent("Sprite");
     sprite->SetFrameCount(5);
-    sprite->Open("Assets/Images/IndigoInteractingSheet.png");
+    sprite->Open("Assets/Images/Indigo/IndigoInteractingSheet.png");
     interacting = true;
     interactingTimer.Restart();
 }

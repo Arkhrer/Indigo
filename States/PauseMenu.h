@@ -17,6 +17,8 @@ public:
     void Resume();
 private:
     int option;
+    bool map;
+    bool lastFrameMap;
     int lastFrameOption;
     Sprite* backgroundImage;
 };
