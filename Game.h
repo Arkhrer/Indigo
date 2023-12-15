@@ -5,6 +5,7 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 #include "State.h"
+#include "Music.h"
 
 #define SCREEN_WIDTH   480 * 3
 #define SCREEN_HEIGHT  270 * 3
@@ -22,6 +23,8 @@ class Game{
         void Run();
 
         float GetDeltaTime();
+
+        Music music;
     private:
         Game(std::string title, int width, int height);
 

@@ -19,6 +19,11 @@ public:
 private:
     int initialX;
     int initialY;
+
+    bool lastOpened;
+    bool justOpened;
+
+    void SpawnExit();
 };
 
 #endif // THIRDROOM_H

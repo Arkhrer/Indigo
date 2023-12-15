@@ -36,7 +36,8 @@ add_executable(Indigo Main.cpp
     Components/InteractionZone.h Components/InteractionZone.cpp
     States/RoomTwoSide.h States/RoomTwoSide.cpp
     States/RoomThreeFuseBox.h States/RoomThreeFuseBox.cpp
-    States/RoomThreeSink.h States/RoomThreeSink.cpp)
+    States/RoomThreeSink.h States/RoomThreeSink.cpp
+    States/Credits.h States/Credits.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS Indigo

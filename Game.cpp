@@ -19,7 +19,7 @@ static void WriteErrorInFile(Game* instance, const char* text, int error_number)
     exit(error_number);
 }
 
-Game::Game(std::string title, int width, int height): frameStart(0), dt(0.0), stateStack(){
+Game::Game(std::string title, int width, int height): frameStart(0), dt(0.0), stateStack(), music(){
     if (instance != nullptr){
         exit(1);
     }

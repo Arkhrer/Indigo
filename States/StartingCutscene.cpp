@@ -49,8 +49,8 @@ void StartingCutscene::Update(float dt){
 
     if(currentFrame > 4){
         popRequested = true;
-        // Game::GetInstance().Push(new FirstRoom(433, 393));
-        Game::GetInstance().Push(new ThirdRoom(35, 494));
+        Game::GetInstance().Push(new FirstRoom(433, 393));
+        // Game::GetInstance().Push(new ThirdRoom(35, 494));
         // Game::GetInstance().Push(new EndingCutscene());
     }else{
         if(currentFrame != lastFrame && currentFrame <= 4){
@@ -72,6 +72,8 @@ void StartingCutscene::Render(){
 }
 
 void StartingCutscene::Start(){
+    Game::GetInstance().music.Open("Assets/Musics/MainMusic.mp3");
+    Game::GetInstance().music.Play();
 
     StartArray();
 }

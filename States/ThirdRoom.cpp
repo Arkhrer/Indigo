@@ -16,10 +16,14 @@
 #include "../Background.h"
 #include "../Components/Purpura.h"
 #include "../Components/SubSceneTrigger.h"
+#include "../GameData.h"
+#include "../Components/InteractionZone.h"
 #define SCALE 3.0 * 8/10
 #define PI 3.14159265358979323846
 
 ThirdRoom::ThirdRoom(int x, int y): State(){
+    this->lastOpened = GameData::stateVariables[24];
+    this->justOpened = false;
     this->initialX = x;
     this->initialY = y;
 
@@ -35,9 +39,15 @@ ThirdRoom::ThirdRoom(int x, int y): State(){
 
     GameObject* backgroundGo = new GameObject();
     AddObject(backgroundGo);
-    Sprite* img = new Sprite(*backgroundGo, "Assets/Images/Room3/Room3Bg.png");
+    Sprite* img;
+    if(!(GameData::stateVariables[24])){
+        img = new Sprite(*backgroundGo, "Assets/Images/Room3/Room3Bg.png");
+        img->SetScaleX(3.0, 3.0);
+    }else{
+        img = new Sprite(*backgroundGo, "Assets/Images/Room3/Room3BgOpened.png");
+        img->SetScaleX(0.75, 0.75);
+    }
     backgroundGo->AddComponent(dynamic_cast<Component*>(img));
-    img->SetScaleX(3.0, 3.0);
     backgroundGo->box.x = 0;
     backgroundGo->box.y = 0;
     Background* background = new Background(*backgroundGo);
@@ -76,6 +86,11 @@ ThirdRoom::ThirdRoom(int x, int y): State(){
     subSceneTrigger2Go->AddComponent(dynamic_cast<Component*>(subSceneTrigger2Collider));
     AddObject(subSceneTrigger2Go);
     subSceneTrigger2->SetOption(3);
+
+
+    if(GameData::stateVariables[24]){
+        SpawnExit();
+    }
 }
 
 ThirdRoom::~ThirdRoom(){
@@ -122,9 +137,31 @@ void ThirdRoom::Update(float dt){
             }
         }
     }
+
+    if(GameData::stateVariables[24] != lastOpened){
+        if(GameData::stateVariables[24]){
+            SpawnExit();
+        }
+        justOpened = true;
+    }
+    this->lastOpened = GameData::stateVariables[24];
 }
 
 void ThirdRoom::Render(){
+    if(justOpened){
+        if(GameData::stateVariables[24]){
+            GameObject* backgroundGo = GetObjectContaining("Background").lock().get();
+            Sprite* backgroundImg = (Sprite*)(backgroundGo->GetComponent("Sprite"));
+            std::string directory = "Assets/Images/Room3/Room3BgOpened.png";
+
+            backgroundImg->Open(directory);
+            backgroundImg->SetScaleX(0.75, 0.75);
+            backgroundGo->box.x = 0;
+            backgroundGo->box.y = 0;
+            justOpened = false;
+        }
+    }
+
     RenderArray();
 }
 
@@ -167,4 +204,18 @@ void ThirdRoom::Pause(){
 
 void ThirdRoom::Resume(){
 
+}
+
+void ThirdRoom::SpawnExit(){
+    GameObject* ExitInteractionZoneGo = new GameObject();
+    InteractionZone* ExitInteractionZone = new InteractionZone(*ExitInteractionZoneGo, 77);
+    ExitInteractionZoneGo->AddComponent(dynamic_cast<Component*>(ExitInteractionZone));
+    Collider* ExitInteractionZoneCollider = new Collider(*ExitInteractionZoneGo);
+    ExitInteractionZoneGo->AddComponent(dynamic_cast<Component*>(ExitInteractionZoneCollider));
+    AddObject(ExitInteractionZoneGo);
+
+    ExitInteractionZoneGo->box.w = 187;
+    ExitInteractionZoneGo->box.h = 68;
+    ExitInteractionZoneGo->box.x = 987;
+    ExitInteractionZoneGo->box.y = 134;
 }

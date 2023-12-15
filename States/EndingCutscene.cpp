@@ -8,6 +8,7 @@
 #include "../Background.h"
 #include "PauseMenu.h"
 #include "TitleState.h"
+#include "Credits.h"
 
 EndingCutscene::EndingCutscene(){
     this->currentFrame = 0;
@@ -47,7 +48,8 @@ void EndingCutscene::Update(float dt){
 
     if(currentFrame > 3){
         popRequested = true;
-        Game::GetInstance().Push(new TitleState());
+        Game::GetInstance().Push(new Credits());
+        Game::GetInstance().music.Stop(0);
     }
     else{
         if(currentFrame != lastFrame){

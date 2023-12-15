@@ -5,6 +5,7 @@
 #include "Indigo.h"
 #include "Inventory.h"
 #include "../Camera.h"
+#include "../States/EndingCutscene.h"
 
 InteractionZone::InteractionZone(GameObject& associated, int ID): Component(associated){
     this->ID = ID;
@@ -35,6 +36,10 @@ void InteractionZone::Update(float dt){
             case 23:
                 Inventory::inventory->AddItem(this->ID);
                 associated.RequestDelete();
+                break;
+            case 77:
+                Game::GetInstance().GetCurrentState().RequestPop();
+                Game::GetInstance().Push(new EndingCutscene());
                 break;
             }
         }
